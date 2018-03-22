@@ -183,7 +183,9 @@ def nper_handler(request, context):
         return {'error': validation_result.get('error')}
 
     args = [request['rate'], request.get('pmt', 0), request['pv'], request.get('fv', 0), request.get('type', 0)]
-    return __call_numpy('nper', args)
+    result = __call_numpy('nper', args)
+    # numpy.nper returns a numpy.ndarray object with the result in it . Need to unwrap the result.
+    return dict(map(lambda entry: (entry[0], entry[1].item(0)), result.items()))
 
 
 def rate_handler(request, context):

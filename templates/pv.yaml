@@ -8,6 +8,6 @@ Resources:
     Properties:
       Handler: 'lambda_handlers.pv_handler'
       CodeUri: '../code'
-      Runtime: 'python2.7'
+      Runtime: 'python3.6'
       Timeout: 30
       MemorySize: 256

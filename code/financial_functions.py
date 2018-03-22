@@ -1,13 +1,14 @@
 # Additional financial functions not already provided by numpy
 
 import datetime
+import functools
 from scipy import optimize
 
 def fvschedule(principal, schedule=[]):
     """
     Calculates future value with a variable interest rate schedule.
     """
-    return reduce(lambda x, y: x + (x * y), schedule, principal)
+    return functools.reduce(lambda x, y: x + (x * y), schedule, principal)
 
 def xnpv(rate, values=[], dates=[]):
     """
