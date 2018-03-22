@@ -13,9 +13,9 @@ PYTHON := $(shell /usr/bin/which python$(PY_VERSION))
 
 init:
 	$(PYTHON) -m pip install pipenv --user
-	pipenv sync
 
 test: init
+	pipenv sync --dev
 	pipenv run py.test -v test/unit
 
 build: test
