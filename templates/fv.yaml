@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Resources:
+  # Future Value financial function
+  FV:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: 'lambda_handlers.fv_handler'
+      CodeUri: '../code'
+      Runtime: 'python2.7'
+      Timeout: 30
+      MemorySize: 256

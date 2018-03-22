@@ -1,0 +1,5 @@
+{
+  "values": [-1000, 300, 400, 400, 300],
+  "finance_rate": 0.12,
+  "reinvest_rate": 0.10
+}

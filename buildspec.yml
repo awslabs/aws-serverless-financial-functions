@@ -1,0 +1,20 @@
+version: 0.2
+
+env:
+  variables:
+    TEMPLATES_DIR_PATH: "./templates"
+    DIST_DIR_NAME: "dist"
+
+phases:
+  install:
+    commands:
+      - pip install --upgrade -t './code/lib' -r requirements.txt
+  pre_build:
+    commands:
+      - mkdir $DIST_DIR_NAME
+  build:
+    commands:
+      - for template in $(ls ${TEMPLATES_DIR_PATH}); do echo "Packaging ${TEMPLATES_DIR_PATH}/${template}..."; aws cloudformation package --template-file ${TEMPLATES_DIR_PATH}/${template} --s3-bucket $S3_BUCKET --output-template-file ${DIST_DIR_NAME}/packaged-${template}; done
+  post_build:
+    commands:
+      - for template in $(ls ./${DIST_DIR_NAME}); do echo "Deploying ${DIST_DIR_NAME}/${template}..."; aws cloudformation deploy --template-file ${DIST_DIR_NAME}/${template}  --stack-name "FinancialFunction-${${template#packaged-}%.yaml}" --capabilities CAPABILITY_IAM --region us-east-1; done
