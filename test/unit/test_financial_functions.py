@@ -3,10 +3,10 @@ import pytest
 # make sure we can find the app code
 import sys, os
 my_path = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, my_path + '/../../code/')
+sys.path.insert(0, my_path + '/../../financial_functions/')
 
 from datetime import date
-import financial_functions as ff
+import core as ff
 
 def test_fvschedule():
     assert ff.fvschedule(10000, [0.05, 0.05, 0.035, 0.035, 0.035]) == 12223.614571875
