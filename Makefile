@@ -12,6 +12,8 @@ init:
 test: init
 	pipenv run py.test -v test/unit
 
+build: test
+
 package: init
 	mkdir -p $(BUILD_DIR)
 	pipenv lock --requirements > $(BUILD_DIR)/requirements.txt
@@ -22,4 +24,5 @@ package: init
 deploy: package
 	for template in $(PACKAGED_TEMPLATES_DIR)/* ; do echo "Deploying $$template..."; aws cloudformation deploy --template-file $$template --stack-name FinancialFunctions-$$(basename $$template .yaml) --capabilities CAPABILITY_IAM; done
 
-build: test
+clean:
+	rm -rf $(BUILD_DIR)
