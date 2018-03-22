@@ -1,12 +1,18 @@
 SHELL := /bin/sh
+PY_VERSION := 3.6
+
+export PYTHONUNBUFFERED := 1
+
 BUILD_DIR := dist
 TEMPLATES_DIR := templates
 PACKAGED_TEMPLATES_DIR := $(BUILD_DIR)/packaged_templates
 
+PYTHON := $(shell /usr/bin/which python$(PY_VERSION))
+
 .DEFAULT_GOAL := build
 
 init:
-	pip install pipenv --user
+	$(PYTHON) -m pip install pipenv --user
 	pipenv sync
 
 test: init
