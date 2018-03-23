@@ -1,5 +1,3 @@
-import json
-
 # make sure we can find the app code
 import sys, os
 my_path = os.path.dirname(os.path.abspath(__file__))
@@ -326,13 +324,12 @@ def test_nper_missing_pv():
 def test_npv_handler():
     # TODO test data types
 
-    # TODO Why doesn't the Excel calc match the NumPy calc?
     response = handlers.npv_handler({
         "rate": 0.1,
-        "values": [-1000, 3000, 4200, 6800]
+        "values": [-10000, 3000, 4200, 6800]
     }, None)
     assert 'result' in response
-    assert round(response.get('result'), 8) == 1188.44341
+    assert round(response.get('result'), 5) == 1188.44341
 
 
 def test_npv_missing_rate():

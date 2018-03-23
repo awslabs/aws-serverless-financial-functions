@@ -84,7 +84,10 @@ def npv_handler(request, context):
     if not validation_result.get('isValid'):
         return {'error': validation_result.get('error')}
 
-    args = [request['rate'], request['values']]
+    # Need to append a 0 entry to the beginning of the values list for NumPy NPV to align with Excel
+    # Excel assumes the investment begins one period before the first value cash flow whereas
+    # NumPy assumes they begin at the same time.
+    args = [request['rate'], [0] + request['values']]
     return __call_numpy('npv', args)
 
 
