@@ -331,3 +331,20 @@ nominal_schema = {
     "required": ["effect_rate", "npery"],
     "additionalProperties": False
 }
+
+sln_schema = {
+    "type": "object",
+    "properties": {
+        "cost": {
+            "type": "number"
+        },
+        "salvage": {
+            "type": "number"
+        },
+        "life": {
+            "type": "number"
+        }
+    },
+    "required": ["cost", "salvage", "life"],
+    "additionalProperties": False
+}

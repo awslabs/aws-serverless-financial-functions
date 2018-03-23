@@ -753,3 +753,50 @@ def test_nominal_missing_npery():
     }, None)
 
     assert 'error' in response
+
+
+def test_sln_handler():
+    response = handlers.sln_handler({
+        "cost": 5000,
+        "salvage": 300,
+        "life": 10
+    }, None)
+    assert 'result' in response
+    assert response.get('result') == 470
+
+
+def test_sln_handler_missing_cost():
+    response = handlers.sln_handler({
+        "salvage": 300,
+        "life": 10
+    }, None)
+    
+    assert 'error' in response
+
+
+def test_sln_handler_missing_salvage():
+    response = handlers.sln_handler({
+        "cost": 5000,
+        "life": 10
+    }, None)
+    
+    assert 'error' in response
+
+
+def test_sln_handler_missing_life():
+    response = handlers.sln_handler({
+        "cost": 5000,
+        "salvage": 300
+    }, None)
+    
+    assert 'error' in response
+
+
+def test_sln_handler_zero_life():
+    response = handlers.sln_handler({
+        "cost": 5000,
+        "salvage": 300,
+        "life": 0
+    }, None)
+    
+    assert 'error' in response

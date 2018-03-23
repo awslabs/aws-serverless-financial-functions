@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Resources:
+  # Straight line depreciation for one period
+  SLN:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: 'lambda_handlers.sln_handler'
+      CodeUri: '../financial_functions'
+      Runtime: 'python3.6'
+      Timeout: 30
+      MemorySize: 256

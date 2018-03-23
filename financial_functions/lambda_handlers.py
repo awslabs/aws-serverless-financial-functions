@@ -315,3 +315,22 @@ def nominal_handler(request, context):
     args = [request['effect_rate'], int(request['npery'])]
     return __call_ff('nominal', args)
 
+
+def sln_handler(request, context):
+    """
+    Straight line depreciation of an asset for one period
+    :param request: Dict containing the parameters to pass to the formula.
+    :param context: Lambda execution context
+    :return: Dict with a 'result' entry containing the result of the calculation
+    """
+    logger.info("SLN request: {}".format(request))
+
+    validation_result = __validate_arguments('sln', request, schemas.sln_schema)
+    if not validation_result.get('isValid'):
+        return {'error': validation_result.get('error')}
+    if request['life'] == 0:
+        return {'error': 'life cannot be zero'}
+
+    args = [request['cost'], request['salvage'], request['life']]
+    return __call_ff('sln', args)
+

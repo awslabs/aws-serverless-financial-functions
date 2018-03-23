@@ -122,6 +122,12 @@ set-nominal-template:
 	$(eval PACKAGED_TEMPLATE := $(PACKAGED_TEMPLATES_DIR)/nominal.yaml)
 package-nominal: set-nominal-template package
 deploy-nominal: set-nominal-template package-nominal deploy
+	
+set-sln-template:
+	$(eval SOURCE_TEMPLATE := $(TEMPLATES_BUILD_DIR)/sln.yaml)
+	$(eval PACKAGED_TEMPLATE := $(PACKAGED_TEMPLATES_DIR)/sln.yaml)
+package-sln: set-sln-template package
+deploy-sln: set-sln-template package-sln deploy
 
 clean:
 	rm -rf $(BUILD_DIR)
