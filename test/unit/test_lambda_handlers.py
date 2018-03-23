@@ -686,3 +686,36 @@ def test_rate_missing_pv():
 
     assert 'error' in response
 
+
+def test_effect_handler():
+    response = handlers.effect_handler({
+        "nominal_rate": 0.12,
+        "npery": 12
+    }, None)
+    assert 'result' in response
+    assert round(response.get('result'), 6) == 0.126825
+
+
+def test_effect_handler_non_int_npery():
+    response = handlers.effect_handler({
+        "nominal_rate": 0.12,
+        "npery": 12.7
+    }, None)
+    assert 'result' in response
+    assert round(response.get('result'), 6) == 0.126825
+
+
+def test_effect_missing_nominal_rate():
+    response = handlers.effect_handler({
+        "npery": 12
+    }, None)
+
+    assert 'error' in response
+
+
+def test_effect_missing_npery():
+    response = handlers.effect_handler({
+        "nominal_rate": 0.12
+    }, None)
+
+    assert 'error' in response

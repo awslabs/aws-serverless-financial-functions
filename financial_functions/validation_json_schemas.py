@@ -301,3 +301,18 @@ rate_schema = {
     ],
     "additionalProperties": False
 }
+
+effect_schema = {
+    "type": "object",
+    "properties": {
+        "nominal_rate": {
+            "type": "number"
+        },
+        "npery": {
+            "type": "number",
+            "minimum": 1
+        }
+    },
+    "required": ["nominal_rate", "npery"],
+    "additionalProperties": False
+}

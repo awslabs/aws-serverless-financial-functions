@@ -110,6 +110,12 @@ set-rate-template:
 	$(eval PACKAGED_TEMPLATE := $(PACKAGED_TEMPLATES_DIR)/rate.yaml)
 package-rate: set-rate-template package
 deploy-rate: set-rate-template package-rate deploy
+	
+set-effect-template:
+	$(eval SOURCE_TEMPLATE := $(TEMPLATES_BUILD_DIR)/effect.yaml)
+	$(eval PACKAGED_TEMPLATE := $(PACKAGED_TEMPLATES_DIR)/effect.yaml)
+package-effect: set-effect-template package
+deploy-effect: set-effect-template package-effect deploy
 
 clean:
 	rm -rf $(BUILD_DIR)

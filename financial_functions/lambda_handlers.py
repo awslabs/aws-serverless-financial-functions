@@ -281,3 +281,20 @@ def rate_handler(request, context):
     args = [request['nper'], request.get('pmt', 0), request['pv'], request.get('fv', 0), request.get('type', 0), request.get('guess', 0.10)]
     return __call_numpy('rate', args)
 
+
+def effect_handler(request, context):
+    """
+    Effective annual interest rate
+    :param request: Dict containing the parameters to pass to the formula.
+    :param context: Lambda execution context
+    :return: Dict with a 'result' entry containing the result of the calculation
+    """
+    logger.info("Effect request: {}".format(request))
+
+    validation_result = __validate_arguments('Effect', request, schemas.effect_schema)
+    if not validation_result.get('isValid'):
+        return {'error': validation_result.get('error')}
+
+    args = [request['nominal_rate'], int(request['npery'])]
+    return __call_ff('effect', args)
+
