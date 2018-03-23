@@ -11,3 +11,6 @@ Resources:
       Runtime: 'python3.6'
       Timeout: 30
       MemorySize: 256
+      Environment:
+        Variables:
+          LOG_LEVEL: INFO
