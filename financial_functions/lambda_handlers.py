@@ -6,6 +6,7 @@ import numpy
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 import validation_json_schemas as schemas
+import core as ff
 
 logger = log_helper.getLogger(__name__)
 
@@ -36,6 +37,16 @@ def __call_numpy(method, args):
     logger.info("Calling numpy.{} with args: {}".format(method, args))
     return {'result': getattr(numpy, method)(*args)}
 
+def __call_ff(method, args):
+    """
+    Call a core financial function method with a given set of arguments
+    :param method: Method to call
+    :param args: Arguments for the provided method
+    :return: Calculation result
+    """
+    logger.info("Calling ff.{} with args: {}".format(method, args))
+    return {'result': getattr(ff, method)(*args)}
+
 
 def fv_handler(request, context):
     """
@@ -53,6 +64,21 @@ def fv_handler(request, context):
     args = [request['rate'], request['nper'], request.get('pmt', 0), request.get('pv', 0), request.get('type', 0)]
     return __call_numpy('fv', args)
 
+def fvschedule_handler(request, context):
+    """
+    Returns the future value of an initial principal after applying a series of compound interest rates. 
+    :param request: Dict containing the parameters to pass to the formula.
+    :param context: Lambda execution context
+    :return: Dict with a 'result' entry containing the result of the calculation
+    """
+    logger.info("FVSCHEDULE request: {}".format(request))
+
+    validation_result = __validate_arguments('FVSCHEDULE', request, schemas.fvschedule_schema)
+    if not validation_result.get('isValid'):
+        return {'error': validation_result.get('error')}
+
+    args = [request['principal'], request.get('schedule', [])]
+    return __call_ff('fvschedule', args)
 
 def pv_handler(request, context):
     """

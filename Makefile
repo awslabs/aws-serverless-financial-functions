@@ -4,7 +4,6 @@ PY_VERSION := 3.6
 export PYTHONUNBUFFERED := 1
 
 BUILD_DIR := dist
-TEMPLATES_SRC_DIR := templates
 TEMPLATES_BUILD_DIR := $(BUILD_DIR)/templates
 PACKAGED_TEMPLATES_DIR := $(BUILD_DIR)/packaged_templates
 
@@ -26,9 +25,9 @@ test: init
 build: test
 
 pre-package: init
-	mkdir -p $(BUILD_DIR)
+	mkdir -p $(BUILD_DIR) $(TEMPLATES_BUILD_DIR)
 	cp -r financial_functions $(BUILD_DIR)
-	cp -r $(TEMPLATES_SRC_DIR) $(TEMPLATES_BUILD_DIR)
+	cp templates/*.yaml $(TEMPLATES_BUILD_DIR)
 	
 	pipenv lock --requirements > $(BUILD_DIR)/requirements.txt
 	pipenv run pip install -t $(BUILD_DIR)/financial_functions/lib -r $(BUILD_DIR)/requirements.txt
@@ -45,6 +44,12 @@ set-fv-template:
 	$(eval PACKAGED_TEMPLATE := $(PACKAGED_TEMPLATES_DIR)/fv.yaml)
 package-fv: set-fv-template package
 deploy-fv: set-fv-template package-fv deploy
+	
+set-fvschedule-template:
+	$(eval SOURCE_TEMPLATE := $(TEMPLATES_BUILD_DIR)/fvschedule.yaml)
+	$(eval PACKAGED_TEMPLATE := $(PACKAGED_TEMPLATES_DIR)/fvschedule.yaml)
+package-fvschedule: set-fvschedule-template package
+deploy-fvschedule: set-fvschedule-template package-fvschedule deploy
 	
 set-irr-template:
 	$(eval SOURCE_TEMPLATE := $(TEMPLATES_BUILD_DIR)/irr.yaml)

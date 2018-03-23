@@ -31,6 +31,23 @@ fv_schema = {
     "additionalProperties": False
 }
 
+fvschedule_schema = {
+    "type": "object",
+    "properties": {
+        "principal": {
+            "type": "number"
+        },
+        "schedule": {
+            "type": "array",
+            "items": {
+                "type": "number"
+            }
+        }
+    },
+    "required": ["principal"],
+    "additionalProperties": False
+}
+
 pv_schema = {
     "type": "object",
     "properties": {

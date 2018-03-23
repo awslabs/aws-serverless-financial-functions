@@ -71,6 +71,30 @@ def test_fv_missing_nper():
     assert 'error' in response
 
 
+def test_fvschedule_handler():
+    response = handlers.fvschedule_handler({
+        "principal": 10000,
+        "schedule": [0.05, 0.05, 0.035, 0.035, 0.035]
+    }, None)
+    assert 'result' in response
+    assert round(response.get('result'), 6) == 12223.614572
+
+
+def test_fvschedule_missing_principal():
+    response = handlers.fvschedule_handler({}, None)
+
+    assert 'error' in response
+
+
+def test_fvschedule_missing_schedule():
+    response = handlers.fvschedule_handler({
+        "principal": 10000
+    }, None)
+
+    assert 'result' in response
+    assert response.get('result') == 10000
+
+
 def test_pv_handler():
     # TODO test data types
     response = handlers.pv_handler({
