@@ -211,6 +211,32 @@ mirr_schema = {
     "additionalProperties": False
 }
 
+xirr_schema = {
+    "type": "object",
+    "properties": {
+        "values": {
+            "type": "array",
+            "items": {
+                "type": "number"
+            },
+            "minItems": 2
+        },
+        "dates": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "minItems": 2,
+                "pattern": "^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$"
+            }
+        },
+        "guess": {
+            "type": "number"
+        }
+    },
+    "required": ["values", "dates"],
+    "additionalProperties": False
+}
+
 nper_schema = {
     "type": "object",
     "properties": {

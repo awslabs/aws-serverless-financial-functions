@@ -63,6 +63,12 @@ set-mirr-template:
 package-mirr: set-mirr-template package
 deploy-mirr: set-mirr-template package-mirr deploy
 	
+set-xirr-template:
+	$(eval SOURCE_TEMPLATE := $(TEMPLATES_BUILD_DIR)/xirr.yaml)
+	$(eval PACKAGED_TEMPLATE := $(PACKAGED_TEMPLATES_DIR)/xirr.yaml)
+package-xirr: set-xirr-template package
+deploy-xirr: set-xirr-template package-xirr deploy
+	
 set-nper-template:
 	$(eval SOURCE_TEMPLATE := $(TEMPLATES_BUILD_DIR)/nper.yaml)
 	$(eval PACKAGED_TEMPLATE := $(PACKAGED_TEMPLATES_DIR)/nper.yaml)

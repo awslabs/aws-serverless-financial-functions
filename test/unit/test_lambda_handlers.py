@@ -278,6 +278,64 @@ def test_mirr_values_missing_neg():
     assert response.get('error') == "MIRR requires at least one positive and one negative value"
 
 
+def test_xirr_handler():
+    response = handlers.xirr_handler({
+        "values": [-100, 20, 40, 25],
+        "dates": ['2016-01-01', '2016-4-1', '2016-10-1', '2017-2-1'],
+        "guess": 0.1
+    }, None)
+    assert 'result' in response
+    assert round(response.get('result'), 5) == -0.19674
+
+
+def test_xirr_missing_values():
+    response = handlers.xirr_handler({
+        "dates": ['2016-01-01', '2016-4-1', '2016-10-1', '2017-2-1'],
+        "guess": 0.1
+    }, None)
+
+    assert 'error' in response
+    assert response.get('error') == REQUIRED_PROPERTY_ERR.format("values")
+
+
+def test_xirr_missing_dates():
+    response = handlers.xirr_handler({
+        "values": [-100, 20, 40, 25],
+        "guess": 0.1
+    }, None)
+
+    assert 'error' in response
+    assert response.get('error') == REQUIRED_PROPERTY_ERR.format("dates")
+
+
+def test_xirr_missing_guess():
+    response = handlers.xirr_handler({
+        "values": [-100, 20, 40, 25],
+        "dates": ['2016-01-01', '2016-4-1', '2016-10-1', '2017-2-1']
+    }, None)
+
+    assert 'result' in response
+    assert round(response.get('result'), 5) == -0.19674
+
+
+def test_xirr_values_dates_different_length():
+    response = handlers.xirr_handler({
+        "values": [-100, 20, 40],
+        "dates": ['2016-01-01', '2016-4-1', '2016-10-1', '2017-2-1']
+    }, None)
+
+    assert 'error' in response
+
+
+def test_xirr_no_negative_value():
+    response = handlers.xirr_handler({
+        "values": [100, 20, 40, 25],
+        "dates": ['2016-01-01', '2016-4-1', '2016-10-1', '2017-2-1']
+    }, None)
+
+    assert 'error' in response
+
+
 def test_nper_handler():
     # TODO test data types
     response = handlers.nper_handler({
@@ -412,6 +470,16 @@ def test_xnpv_missing_dates():
 
     assert 'error' in response
     assert response.get('error') == REQUIRED_PROPERTY_ERR.format("dates")
+
+
+def test_xnpv_values_dates_different_lengths():
+    response = handlers.xnpv_handler({
+        "rate": 0.05,
+        "values": [-10000, 2000],
+        "dates": ['2016-1-1', '2016-2-1', '2016-5-1']
+    }, None)
+
+    assert 'error' in response
 
 
 def test_xnpv_invalid_date():

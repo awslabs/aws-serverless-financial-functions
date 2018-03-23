@@ -130,6 +130,9 @@ def xnpv_handler(request, context):
     validation_result = __validate_arguments('XNPV', request, schemas.xnpv_schema)
     if not validation_result.get('isValid'):
         return {'error': validation_result.get('error')}
+        
+    if len(request['values']) != len(request['dates']):
+        return {'error': 'values and dates must have the same length'}
 
     dates = list(map(lambda s: datetime.strptime(s, '%Y-%m-%d'), request['dates']))
     args = [request['rate'], request['values'], dates]
@@ -182,16 +185,15 @@ def irr_handler(request, context):
     validation_result = __validate_arguments('IRR', request, schemas.irr_schema)
     if not validation_result.get('isValid'):
         return {'error': validation_result.get('error')}
-    else:
-        # IRR requires at least one positive and one negative value
-        sorted_values = sorted(request.get('values'))
-        values_length = len(request.get('values'))
-        if sorted_values[0] > 0 or sorted_values[values_length - 1] <= 0:
-            return {'error': "IRR requires at least one positive and one negative value"}
+        
+    # IRR requires at least one positive and one negative value
+    sorted_values = sorted(request.get('values'))
+    values_length = len(request.get('values'))
+    if sorted_values[0] > 0 or sorted_values[values_length - 1] <= 0:
+        return {'error': "IRR requires at least one positive and one negative value"}
 
     args = [request['values']]
     return __call_numpy('irr', args)
-
 
 
 def mirr_handler(request, context):
@@ -206,15 +208,42 @@ def mirr_handler(request, context):
     validation_result = __validate_arguments('MIRR', request, schemas.mirr_schema)
     if not validation_result.get('isValid'):
         return {'error': validation_result.get('error')}
-    else:
-        # MIRR requires at least one positive and one negative value
-        sorted_values = sorted(request.get('values'))
-        values_length = len(request.get('values'))
-        if sorted_values[0] > 0 or sorted_values[values_length - 1] <= 0:
-            return {'error': "MIRR requires at least one positive and one negative value"}
+        
+    # MIRR requires at least one positive and one negative value
+    sorted_values = sorted(request.get('values'))
+    values_length = len(request.get('values'))
+    if sorted_values[0] > 0 or sorted_values[values_length - 1] <= 0:
+        return {'error': "MIRR requires at least one positive and one negative value"}
 
     args = [request['values'], request['finance_rate'], request['reinvest_rate']]
     return __call_numpy('mirr', args)
+
+
+def xirr_handler(request, context):
+    """
+    Returns the internal rate of return for a schedule of cash flows that is not necessarily periodic.
+    :param request: Dict containing the parameters to pass to the formula.
+    :param context: Lambda execution context
+    :return: Dict with a 'result' entry containing the result of the calculation
+    """
+    logger.info("XIRR request: {}".format(request))
+
+    validation_result = __validate_arguments('XIRR', request, schemas.xirr_schema)
+    if not validation_result.get('isValid'):
+        return {'error': validation_result.get('error')}
+        
+    # XIRR requires at least one positive and one negative value
+    sorted_values = sorted(request.get('values'))
+    values_length = len(request.get('values'))
+    if sorted_values[0] > 0 or sorted_values[values_length - 1] <= 0:
+        return {'error': "XIRR requires at least one positive and one negative value"}
+        
+    if len(request['values']) != len(request['dates']):
+        return {'error': 'values and dates must have the same length'}
+
+    dates = list(map(lambda s: datetime.strptime(s, '%Y-%m-%d'), request['dates']))
+    args = [request['values'], dates, request.get('guess', 0.1)]
+    return __call_ff('xirr', args)
 
 
 def nper_handler(request, context):
