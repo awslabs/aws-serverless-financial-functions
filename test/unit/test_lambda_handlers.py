@@ -1,5 +1,3 @@
-import json
-
 # make sure we can find the app code
 import sys, os
 my_path = os.path.dirname(os.path.abspath(__file__))
