@@ -298,3 +298,20 @@ def effect_handler(request, context):
     args = [request['nominal_rate'], int(request['npery'])]
     return __call_ff('effect', args)
 
+
+def nominal_handler(request, context):
+    """
+    Nominal annual interest rate
+    :param request: Dict containing the parameters to pass to the formula.
+    :param context: Lambda execution context
+    :return: Dict with a 'result' entry containing the result of the calculation
+    """
+    logger.info("Nominal request: {}".format(request))
+
+    validation_result = __validate_arguments('nominal', request, schemas.nominal_schema)
+    if not validation_result.get('isValid'):
+        return {'error': validation_result.get('error')}
+
+    args = [request['effect_rate'], int(request['npery'])]
+    return __call_ff('nominal', args)
+

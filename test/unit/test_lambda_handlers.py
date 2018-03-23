@@ -719,3 +719,37 @@ def test_effect_missing_npery():
     }, None)
 
     assert 'error' in response
+
+
+def test_nominal_handler():
+    response = handlers.nominal_handler({
+        "effect_rate": 0.12,
+        "npery": 12
+    }, None)
+    assert 'result' in response
+    assert round(response.get('result'), 6) == 0.113866
+
+
+def test_nominal_handler_non_int_npery():
+    response = handlers.nominal_handler({
+        "effect_rate": 0.12,
+        "npery": 12.7
+    }, None)
+    assert 'result' in response
+    assert round(response.get('result'), 6) == 0.113866
+
+
+def test_nominal_missing_effect_rate():
+    response = handlers.nominal_handler({
+        "npery": 12
+    }, None)
+
+    assert 'error' in response
+
+
+def test_nominal_missing_npery():
+    response = handlers.nominal_handler({
+        "effect_rate": 0.12
+    }, None)
+
+    assert 'error' in response

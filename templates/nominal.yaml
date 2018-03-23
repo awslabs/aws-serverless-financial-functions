@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Resources:
+  # Nominal annual interest rate
+  NOMINAL:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: 'lambda_handlers.nominal_handler'
+      CodeUri: '../financial_functions'
+      Runtime: 'python3.6'
+      Timeout: 30
+      MemorySize: 256

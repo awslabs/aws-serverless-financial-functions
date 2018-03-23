@@ -316,3 +316,18 @@ effect_schema = {
     "required": ["nominal_rate", "npery"],
     "additionalProperties": False
 }
+
+nominal_schema = {
+    "type": "object",
+    "properties": {
+        "effect_rate": {
+            "type": "number"
+        },
+        "npery": {
+            "type": "number",
+            "minimum": 1
+        }
+    },
+    "required": ["effect_rate", "npery"],
+    "additionalProperties": False
+}

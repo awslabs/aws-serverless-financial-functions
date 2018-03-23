@@ -116,6 +116,12 @@ set-effect-template:
 	$(eval PACKAGED_TEMPLATE := $(PACKAGED_TEMPLATES_DIR)/effect.yaml)
 package-effect: set-effect-template package
 deploy-effect: set-effect-template package-effect deploy
+	
+set-nominal-template:
+	$(eval SOURCE_TEMPLATE := $(TEMPLATES_BUILD_DIR)/nominal.yaml)
+	$(eval PACKAGED_TEMPLATE := $(PACKAGED_TEMPLATES_DIR)/nominal.yaml)
+package-nominal: set-nominal-template package
+deploy-nominal: set-nominal-template package-nominal deploy
 
 clean:
 	rm -rf $(BUILD_DIR)
