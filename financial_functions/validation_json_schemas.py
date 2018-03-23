@@ -44,7 +44,7 @@ fvschedule_schema = {
             }
         }
     },
-    "required": ["principal"],
+    "required": ["principal", "schedule"],
     "additionalProperties": False
 }
 
@@ -94,6 +94,32 @@ npv_schema = {
         }
     },
     "required": ["rate", "values"],
+    "additionalProperties": False
+}
+
+xnpv_schema = {
+    "type": "object",
+    "properties": {
+        "rate": {
+            "type": "number"
+        },
+        "values": {
+            "type": "array",
+            "items": {
+                "type": "number",
+                "minItems": 1
+            }
+        },
+        "dates": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "minItems": 1,
+                "pattern": "^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$"
+            }
+        }
+    },
+    "required": ["rate", "values", "dates"],
     "additionalProperties": False
 }
 

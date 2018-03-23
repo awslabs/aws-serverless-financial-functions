@@ -91,8 +91,7 @@ def test_fvschedule_missing_schedule():
         "principal": 10000
     }, None)
 
-    assert 'result' in response
-    assert response.get('result') == 10000
+    assert 'error' in response
 
 
 def test_pv_handler():
@@ -372,6 +371,57 @@ def test_npv_missing_values():
 
     assert 'error' in response
     assert response.get('error') == REQUIRED_PROPERTY_ERR.format("values")
+
+
+
+def test_xnpv_handler():
+    response = handlers.xnpv_handler({
+        "rate": 0.05,
+        "values": [-10000, 2000, 2400, 2900, 3500, 4100],
+        "dates": ['2016-1-1', '2016-2-1', '2016-5-1', '2016-7-1', '2016-9-1', '2017-1-1']
+    }, None)
+    assert 'result' in response
+    assert round(response.get('result'), 5) == 4475.44879
+
+
+def test_xnpv_missing_rate():
+    response = handlers.xnpv_handler({
+        "values": [-10000, 2000, 2400, 2900, 3500, 4100],
+        "dates": ['2016-1-1', '2016-2-1', '2016-5-1', '2016-7-1', '2016-9-1', '2017-1-1']
+    }, None)
+
+    assert 'error' in response
+    assert response.get('error') == REQUIRED_PROPERTY_ERR.format("rate")
+
+
+def test_xnpv_missing_values():
+    response = handlers.xnpv_handler({
+        "rate": 0.05,
+        "dates": ['2016-01-01', '2016-2-1', '2016-5-1', '2016-7-1', '2016-9-1', '2017-1-1']
+    }, None)
+
+    assert 'error' in response
+    assert response.get('error') == REQUIRED_PROPERTY_ERR.format("values")
+
+
+def test_xnpv_missing_dates():
+    response = handlers.xnpv_handler({
+        "rate": 0.05,
+        "values": [-10000, 2000, 2400, 2900, 3500, 4100]
+    }, None)
+
+    assert 'error' in response
+    assert response.get('error') == REQUIRED_PROPERTY_ERR.format("dates")
+
+
+def test_xnpv_invalid_date():
+    response = handlers.xnpv_handler({
+        "rate": 0.05,
+        "values": [-10000],
+        "dates": ['bogus']
+    }, None)
+
+    assert 'error' in response
 
 
 def test_pmt_handler():

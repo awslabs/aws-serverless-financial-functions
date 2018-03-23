@@ -75,6 +75,12 @@ set-npv-template:
 package-npv: set-npv-template package
 deploy-npv: set-npv-template package-npv deploy
 	
+set-xnpv-template:
+	$(eval SOURCE_TEMPLATE := $(TEMPLATES_BUILD_DIR)/xnpv.yaml)
+	$(eval PACKAGED_TEMPLATE := $(PACKAGED_TEMPLATES_DIR)/xnpv.yaml)
+package-xnpv: set-xnpv-template package
+deploy-xnpv: set-xnpv-template package-xnpv deploy
+	
 set-pmt-template:
 	$(eval SOURCE_TEMPLATE := $(TEMPLATES_BUILD_DIR)/pmt.yaml)
 	$(eval PACKAGED_TEMPLATE := $(PACKAGED_TEMPLATES_DIR)/pmt.yaml)

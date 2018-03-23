@@ -7,6 +7,7 @@ from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 import validation_json_schemas as schemas
 import core as ff
+from datetime import datetime
 
 logger = log_helper.getLogger(__name__)
 
@@ -115,6 +116,24 @@ def npv_handler(request, context):
     # NumPy assumes they begin at the same time.
     args = [request['rate'], [0] + request['values']]
     return __call_numpy('npv', args)
+
+
+def xnpv_handler(request, context):
+    """
+    Net Present Value of a cash flow series that's not necessarily periodic.
+    :param request: Dict containing the parameters to pass to the formula.
+    :param context: Lambda execution context
+    :return: Dict with a 'result' entry containing the result of the calculation
+    """
+    logger.info("XNPV request: {}".format(request))
+
+    validation_result = __validate_arguments('XNPV', request, schemas.xnpv_schema)
+    if not validation_result.get('isValid'):
+        return {'error': validation_result.get('error')}
+
+    dates = list(map(lambda s: datetime.strptime(s, '%Y-%m-%d'), request['dates']))
+    args = [request['rate'], request['values'], dates]
+    return __call_ff('xnpv', args)
 
 
 def pmt_handler(request, context):
