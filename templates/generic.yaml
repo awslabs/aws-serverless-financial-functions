@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 
 Resources:
-  # Effective annual interest rate
+  # Wrapper function for all financial functions
   EFFECT:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -14,3 +14,9 @@ Resources:
       Environment:
         Variables:
           LOG_LEVEL: INFO
+      Events:
+        HttpPost:
+          Type: Api
+          Properties:
+            Path: '/financial_functions/wrapper'
+            Method: post
