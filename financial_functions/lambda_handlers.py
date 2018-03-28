@@ -333,15 +333,15 @@ def sln_handler(request, context):
     args = [request['cost'], request['salvage'], request['life']]
     return __call_ff('sln', args)
 
-def generic_financial_function_handler(request, context):
+def financial_function_generic_handler(request, context):
     """
     This function takes in an arbritary financial function and its parameters as inputs and returns the result of that calculation
     :param request: Dict containing the financial function name and its parameters
     :param context: Lambda execution context
     :return: Dict with a 'result' entry containing the result of the calculation
     """
-    
     logger.info("financial function request: {}".format(request))
+
     function_name = request.get("functionName")
     if function_name is None: 
         return {"error": "Please provide a function name using the functionName parameter"}
@@ -351,6 +351,5 @@ def generic_financial_function_handler(request, context):
         request.pop('functionName', None) #to ensure that the schema validation doesn't fail
         return getattr(sys.modules[__name__], function_handler_name)(request, context)
     else:
-        return {"error": "Invalid function name provided: "+ function_name+ ". Please refer to the documentation for supported functions"}
-    
-        
+        return {"error": "Invalid function name: "+function_name+". Please see documentation for help on supported functions" }
+

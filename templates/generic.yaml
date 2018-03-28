@@ -6,7 +6,7 @@ Resources:
   EFFECT:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Handler: 'lambda_handlers.generic_financial_function_handler'
+      Handler: 'lambda_handlers.financial_function_generic_handler'
       CodeUri: '../financial_functions'
       Runtime: 'python3.6'
       Timeout: 30
@@ -14,9 +14,3 @@ Resources:
       Environment:
         Variables:
           LOG_LEVEL: INFO
-      Events:
-        HttpPost:
-          Type: Api
-          Properties:
-            Path: '/financial_functions/wrapper'
-            Method: post

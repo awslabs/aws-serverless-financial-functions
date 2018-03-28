@@ -17,16 +17,16 @@ def test_generic_function_handler():
         "pmt": -100
     }
     
-    response = handlers.generic_financial_function_handler(request, None)
+    response = handlers.financial_function_generic_handler(request, None)
     assert 'result' in response
     assert round(response.get('result'), 6) == 15528.227945
     
     #test function does not
-    response = handlers.generic_financial_function_handler({"functionName":"not_available"}, None)
+    response = handlers.financial_function_generic_handler({"functionName":"not_available"}, None)
     assert 'error' in response
     
     #test functionName parameter passed in is incorrect
-    response = handlers.generic_financial_function_handler({"function_name":"fv"}, None)
+    response = handlers.financial_function_generic_handler({"function_name":"fv"}, None)
     assert 'error' in response
 
 def test_fv_handler():
