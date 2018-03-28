@@ -6,7 +6,7 @@ Resources:
   EFFECT:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Handler: 'lambda_handlers.generic_handler'
+      Handler: 'lambda_handlers.generic_financial_function_handler'
       CodeUri: '../financial_functions'
       Runtime: 'python3.6'
       Timeout: 30

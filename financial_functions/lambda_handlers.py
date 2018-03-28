@@ -351,6 +351,6 @@ def generic_financial_function_handler(request, context):
         request.pop('functionName', None) #to ensure that the schema validation doesn't fail
         return getattr(sys.modules[__name__], function_handler_name)(request, context)
     else:
-        return {"error": "Invalid function name provided. Please refer to the documentation for supported functions" + function_name}
+        return {"error": "Invalid function name provided: "+ function_name+ ". Please refer to the documentation for supported functions"}
     
         
