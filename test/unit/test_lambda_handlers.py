@@ -8,6 +8,26 @@ import lambda_handlers as handlers
 REQUIRED_PROPERTY_ERR = "'{}' is a required property"
 INCORRECT_TYPE_ERR = "'{}' is not of type '{}'"
 
+def test_generic_function_handler():
+    # test a function that exists and validate it works as excpeted
+    request = {
+        "functionName": "fv",
+        "rate": 0.004166666666667,
+        "nper": 120,
+        "pmt": -100
+    }
+    
+    response = handlers.generic_financial_function_handler(request, None)
+    assert 'result' in response
+    assert round(response.get('result'), 6) == 15528.227945
+    
+    #test function does not
+    response = handlers.generic_financial_function_handler({"functionName":"not_available"}, None)
+    assert 'error' in response
+    
+    #test functionName parameter passed in is incorrect
+    response = handlers.generic_financial_function_handler({"function_name":"fv"}, None)
+    assert 'error' in response
 
 def test_fv_handler():
     # TODO test data types
