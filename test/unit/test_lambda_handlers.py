@@ -1,13 +1,7 @@
-# make sure we can find the app code
-import sys, os
-my_path = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, my_path + '/../../financial_functions/')
-
 import lambda_handlers as handlers
 
 REQUIRED_PROPERTY_ERR = "'{}' is a required property"
 INCORRECT_TYPE_ERR = "'{}' is not of type '{}'"
-
 
 def test_fv_handler():
     # TODO test data types

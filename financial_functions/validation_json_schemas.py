@@ -348,3 +348,17 @@ sln_schema = {
     "required": ["cost", "salvage", "life"],
     "additionalProperties": False
 }
+
+wrapper_schema = {
+    "type": "object",
+    "properties": {
+        "function_name": {
+            "type": "string"
+        },
+        "args": {
+            "type": "object"
+        }
+    },
+    "required": ["function_name", "args"],
+    "additionalProperties": False
+}
