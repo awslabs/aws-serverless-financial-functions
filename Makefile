@@ -129,11 +129,11 @@ set-sln-template:
 package-sln: set-sln-template package
 deploy-sln: set-sln-template package-sln deploy
 
-set-generic-template:
-	$(eval SOURCE_TEMPLATE := $(TEMPLATES_BUILD_DIR)/generic.yaml)
-	$(eval PACKAGED_TEMPLATE := $(PACKAGED_TEMPLATES_DIR)/generic.yaml)
-package-generic: set-generic-template package
-deploy-generic: set-generic-template package-generic deploy
+set-wrapper-template:
+	$(eval SOURCE_TEMPLATE := $(TEMPLATES_BUILD_DIR)/wrapper.yaml)
+	$(eval PACKAGED_TEMPLATE := $(PACKAGED_TEMPLATES_DIR)/wrapper.yaml)
+package-wrapper: set-wrapper-template package
+deploy-wrapper: set-wrapper-template package-wrapper deploy
 
 clean:
 	rm -rf $(BUILD_DIR)

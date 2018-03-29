@@ -4,29 +4,34 @@ my_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, my_path + '/../../financial_functions/')
 
 import lambda_handlers as handlers
+import wrapper_handler as wrapper
 
 REQUIRED_PROPERTY_ERR = "'{}' is a required property"
 INCORRECT_TYPE_ERR = "'{}' is not of type '{}'"
 
-def test_generic_function_handler():
+def test_wrapper_handler():
     # test a function that exists and validate it works as excpeted
     request = {
-        "functionName": "fv",
+        "function_name": "fv",
         "rate": 0.004166666666667,
         "nper": 120,
         "pmt": -100
     }
     
-    response = handlers.financial_function_generic_handler(request, None)
+    response = wrapper.financial_functions_handler(request, None)
     assert 'result' in response
     assert round(response.get('result'), 6) == 15528.227945
+
+def test_wrapper_handler_incorrect_param():
     
     #test function does not
-    response = handlers.financial_function_generic_handler({"functionName":"not_available"}, None)
+    response = wrapper.financial_functions_handler({"function_name":"not_available"}, None)
     assert 'error' in response
     
+def test_wrapper_handler_incorrect_function():
+
     #test functionName parameter passed in is incorrect
-    response = handlers.financial_function_generic_handler({"function_name":"fv"}, None)
+    response = wrapper.financial_functions_handler({"function_name":"fv"}, None)
     assert 'error' in response
 
 def test_fv_handler():
