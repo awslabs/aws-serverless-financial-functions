@@ -1,38 +1,7 @@
-# make sure we can find the app code
-import sys, os
-my_path = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, my_path + '/../../financial_functions/')
-
 import lambda_handlers as handlers
-import wrapper_handler as wrapper
 
 REQUIRED_PROPERTY_ERR = "'{}' is a required property"
 INCORRECT_TYPE_ERR = "'{}' is not of type '{}'"
-
-def test_wrapper_handler():
-    # test a function that exists and validate it works as excpeted
-    request = {
-        "function_name": "fv",
-        "rate": 0.004166666666667,
-        "nper": 120,
-        "pmt": -100
-    }
-    
-    response = wrapper.financial_functions_handler(request, None)
-    assert 'result' in response
-    assert round(response.get('result'), 6) == 15528.227945
-
-def test_wrapper_handler_incorrect_param():
-    
-    #test function does not
-    response = wrapper.financial_functions_handler({"function_name":"not_available"}, None)
-    assert 'error' in response
-    
-def test_wrapper_handler_incorrect_function():
-
-    #test functionName parameter passed in is incorrect
-    response = wrapper.financial_functions_handler({"function_name":"fv"}, None)
-    assert 'error' in response
 
 def test_fv_handler():
     # TODO test data types
