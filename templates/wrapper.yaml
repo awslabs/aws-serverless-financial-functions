@@ -3,7 +3,7 @@ Transform: 'AWS::Serverless-2016-10-31'
 
 Resources:
   # Wrapper function for all financial functions
-  EFFECT:
+  WRAPPER:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: 'wrapper_handler.financial_functions_handler'

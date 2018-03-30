@@ -1,0 +1,6 @@
+{
+  "function_name": "irr",
+  "args": {
+    "values": [-100, 39, 59, 55, 20]
+  }
+}
