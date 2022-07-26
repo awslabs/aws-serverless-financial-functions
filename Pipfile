@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-numpy = "*"
+numpy_financial = "*"
 scipy = "*"
 jsonschema = "*"
 

@@ -2,7 +2,7 @@ from __future__ import print_function
 import sys
 import log_helper
 sys.path.append('lib')
-import numpy
+import numpy_financial as numpy
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 import validation_json_schemas as schemas
@@ -67,7 +67,7 @@ def fv_handler(request, context):
 
 def fvschedule_handler(request, context):
     """
-    Returns the future value of an initial principal after applying a series of compound interest rates. 
+    Returns the future value of an initial principal after applying a series of compound interest rates.
     :param request: Dict containing the parameters to pass to the formula.
     :param context: Lambda execution context
     :return: Dict with a 'result' entry containing the result of the calculation
@@ -130,7 +130,7 @@ def xnpv_handler(request, context):
     validation_result = __validate_arguments('XNPV', request, schemas.xnpv_schema)
     if not validation_result.get('isValid'):
         return {'error': validation_result.get('error')}
-        
+
     if len(request['values']) != len(request['dates']):
         return {'error': 'values and dates must have the same length'}
 
@@ -185,7 +185,7 @@ def irr_handler(request, context):
     validation_result = __validate_arguments('IRR', request, schemas.irr_schema)
     if not validation_result.get('isValid'):
         return {'error': validation_result.get('error')}
-        
+
     # IRR requires at least one positive and one negative value
     sorted_values = sorted(request.get('values'))
     values_length = len(request.get('values'))
@@ -208,7 +208,7 @@ def mirr_handler(request, context):
     validation_result = __validate_arguments('MIRR', request, schemas.mirr_schema)
     if not validation_result.get('isValid'):
         return {'error': validation_result.get('error')}
-        
+
     # MIRR requires at least one positive and one negative value
     sorted_values = sorted(request.get('values'))
     values_length = len(request.get('values'))
@@ -231,13 +231,13 @@ def xirr_handler(request, context):
     validation_result = __validate_arguments('XIRR', request, schemas.xirr_schema)
     if not validation_result.get('isValid'):
         return {'error': validation_result.get('error')}
-        
+
     # XIRR requires at least one positive and one negative value
     sorted_values = sorted(request.get('values'))
     values_length = len(request.get('values'))
     if sorted_values[0] > 0 or sorted_values[values_length - 1] <= 0:
         return {'error': "XIRR requires at least one positive and one negative value"}
-        
+
     if len(request['values']) != len(request['dates']):
         return {'error': 'values and dates must have the same length'}
 
