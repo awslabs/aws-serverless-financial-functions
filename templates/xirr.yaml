@@ -8,7 +8,7 @@ Resources:
     Properties:
       Handler: 'lambda_handlers.xirr_handler'
       CodeUri: '../financial_functions'
-      Runtime: 'python3.6'
+      Runtime: 'python3.8'
       Timeout: 30
       MemorySize: 256
       Environment:
